@@ -1,0 +1,180 @@
+<div class="header bg-danger pb-6"></div>
+
+<div class="container-fluid mt--6">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Rebate Calculator</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="company">Company</label>
+                <select
+                  class="form-control form-control-alternative"
+                  name="company"
+                  [(ngModel)]="company_filter"
+                  [disabled]="companyLength"
+                  [title]="companyLength ? 'This is the single company available to select' : ''"
+                >
+                  <option value="" disabled>Select company</option>
+                  <option *ngFor="let c of company" [ngValue]="c.name">
+                    {{ c.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label class="form-control-label">Currency</label>
+                <select
+                  class="form-control form-control-alternative"
+                  name="currency"
+                  [(ngModel)]="currency"
+                >
+                  <option value="" disabled>Select currency</option>
+                  <option value="USD">USD</option>
+                  <option value="CAD">CAD</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label class="form-control-label">Start date</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                  </div>
+                  <input type="text"
+                          placeholder="Start Date"
+                          class="form-control"
+                          bsDatepicker
+                          (bsValueChange)="changeDate($event, 'start_date')"
+                          [bsValue]="start_date"
+                          [bsConfig]="{
+                            isAnimated: true,
+                            containerClass: 'theme-red'
+                          }">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label class="form-control-label">End date</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                  </div>
+                  <input type="text"
+                          placeholder="End Date"
+                          class="form-control"
+                          bsDatepicker
+                          (bsValueChange)="changeDate($event, 'end_date')"
+                          [bsValue]="end_date"
+                          [bsConfig]="{
+                            isAnimated: true,
+                            containerClass: 'theme-red'
+                          }"/>
+                </div>
+              </div>
+            </div>
+              <div class="col-12 text-right">
+                <button
+                  class="btn btn-fill btn-primary"
+                  (click)="loadFilteredRebateCalculatorData()"
+                >
+                  Search
+                </button>
+              </div>
+          </div>
+          <hr class="my-4" />
+          <div class="row bg-white py-3">
+            <div class="col-6 h-100">
+              <div class="border p-2">
+                <h4>Account:</h4>
+                <div>
+                  <span class="font-weight-bold">Company Name:</span>
+                  <span> {{ company_name }}</span>
+                </div>
+                <div>
+                  <span class="font-weight-bold">Company Contact:</span>
+                  <span> {{ company_contact }}</span>
+                </div>
+                <div>
+                  <span class="font-weight-bold">Company Email:</span>
+                  <span> {{ company_email }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 h-100">
+              <div class="border p-2">
+                <h4>Stats:</h4>
+                <div>
+                  <span class="font-weight-bold">Total Qty:</span>
+                  <span> {{ total_qty }}</span>
+                </div>
+                <div>
+                  <span class="font-weight-bold">Total Discount:</span>
+                  <span> {{ total_discount }}</span>
+                </div>
+                <div>
+                  <span class="font-weight-bold">ECO Average:</span>
+                  <span> {{ eco_avg_cost }}</span>
+                </div>
+                <div>
+                  <span class="font-weight-bold">Customer Average:</span>
+                  <span> {{ customer_avg_rebate }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-4" />
+          <div class="row bg-white py-3">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col" *ngFor="let cell of tableData.headerRow">
+                        {{ cell }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="tableData.dataRows.length; else noDataFound"
+                    >
+                      <tr *ngFor="let row of tableData.dataRows">
+                        <th scope="row">{{ row.company_name }}</th>
+                        <th scope="row">{{ row.tran_date }}</th>
+                        <th scope="row">{{ row.card }}</th>
+                        <th scope="row">{{ row.city }}</th>
+                        <th scope="row">{{ row.unit }}</th>
+                        <th scope="row">{{ row.state }}</th>
+                        <th scope="row">{{ row.disc_ppu }}</th>
+                        <th scope="row">{{ row.qty }}</th>
+                        <th scope="row">{{ row.amt }}</th>
+                        <th scope="row">{{ row.currency }}</th>
+                      </tr>
+                    </ng-container>
+                    <ng-template #noDataFound>
+                      <tr>
+                        <td colspan="10" class="text-center">No Quantity found for the provided Time Range</td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

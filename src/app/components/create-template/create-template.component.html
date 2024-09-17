@@ -1,0 +1,73 @@
+<div class="p-3">
+  <form novalidate #f1="ngForm" (ngSubmit)="onSubmit(f1.value, f1.valid)">
+    <div class="form-group">
+      <label class="form-control-label">Template name</label>
+      <input
+        type="text"
+        class="form-control form-control-alternative"
+        placeholder="Template name"
+        name="template_name"
+        [ngModel]="template.template_name"
+        required
+        #template.template_name="ngModel"
+      />
+      <small
+        [hidden]="template.template_name.valid && f1.submitted"
+        class="text-danger"
+      >
+        Template name is required.
+      </small>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="w-100">
+        <mat-label>Available columns </mat-label>
+        <mat-select [formControl]="selectedColumns" multiple>
+          <mat-option *ngFor="let column of data" [value]="column">{{
+            column
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- <div class="form-group" *ngIf="selectedColumns.getRawValue().length">
+      <label class="form-control-label">Selected columns</label>
+      <div class="d-flex gap-5 flex-wrap">
+        <div
+          *ngFor="let name of selectedColumns.getRawValue(); let i = index"
+          class="p-1 bg-danger text-white d-flex align-items-center text-sm rounded-sm"
+        >
+          <div>{{ name }}</div>
+          <button class="btn text-white px-1 py-0" (click)="removeColumns(i)">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div> -->
+    <div class="form-group overflow-auto" style="max-height: 300px;">
+      <label class="form-control-label">Template Creation</label>
+      <div class="example-list" cdkDropList cdkDropListOrientation="vertical" (cdkDropListDropped)="onFieldOrderChanged($event)">
+        <div
+          *ngFor="let name of selectedColumns.getRawValue(); let i = index"
+          class="example-box"
+          cdkDrag
+        >
+          <div class="text-nowrap">{{ name }}</div>
+          <button class="btn text-white px-1 py-0" (click)="removeColumns(i)">
+            <i class="fas fa-times-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 text-right">
+        <button class="btn btn-fill btn-primary" type="submit">Submit</button
+        ><button
+          class="btn btn-fill btn-warning"
+          (click)="onCloseClick($event)"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

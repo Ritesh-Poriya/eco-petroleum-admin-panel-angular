@@ -1,0 +1,204 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$argon-dashboard-pro-angular-primary: mat.define-palette(mat.$indigo-palette);
+$argon-dashboard-pro-angular-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$argon-dashboard-pro-angular-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$argon-dashboard-pro-angular-theme: mat.define-light-theme((color: (primary: $argon-dashboard-pro-angular-primary,
+        accent: $argon-dashboard-pro-angular-accent,
+        warn: $argon-dashboard-pro-angular-warn,
+      )));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($argon-dashboard-pro-angular-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.overlay {
+  right: 0;
+  top: 0;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  width: 100%;
+
+  & div {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+  }
+}
+
+body bs-datepicker-container,
+body bs-daterangepicker-container {
+  z-index: 9999;
+}
+
+body .bs-datepicker table tr td span {
+  width: 100%;
+  height: auto;
+  line-height: normal;
+  margin: 0 auto;
+}
+
+body .mat-mdc-dialog-container .mdc-dialog__surface {
+  height: 81%;
+}
+
+body .bg-default
+{
+    background-color: #525f7f !important;
+}
+
+body .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus
+{
+  color: #f7fafc !important;
+}
+
+body .navbar-light .navbar-nav .nav-link {
+  color: #f7fafc;
+}
+
+body .navbar-vertical .navbar-nav .nav-link>i {
+  color: #32325d;
+}
+
+// body .navbar-vertical.navbar-expand-xs .navbar-nav > .nav-item > .nav-link.active i {
+//   color: #32325d;
+// }
+
+body .navbar-vertical.navbar-expand-xs .navbar-nav > .nav-item > .nav-link.active i,
+body .navbar-vertical.navbar-expand-xs .navbar-nav > .nav-item > .nav-link.hover i {
+  color: #32325d !important;
+}
+
+body .navbar-vertical.navbar-expand-xs .navbar-nav > .nav-item > .nav-link.active span,
+body .navbar-vertical.navbar-expand-xs .navbar-nav > .nav-item > .nav-link.hover span {
+  color: #32325d !important;
+}
+
+// For the table headers across, Invoices, Reports, Cards tab. Can you please increase the size of headers row and make it bold so its visible.
+body .table td, body .table th {
+  font-size: 1rem !important;
+}
+
+body .navbar-brand-img {
+  height: 91px;
+  width: 170px;
+  object-fit: contain;
+  border-radius: 5px;
+  max-height: 19rem !important;
+  margin-top: 10px;
+}
+//card tab datatable styling
+
+.ngx-datatable.bootstrap .datatable-header .datatable-header-cell .datatable-header-cell-label {
+  font-size: 1rem;
+  color: #8898aa;
+  font-weight: 600;
+}
+
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.ngx-datatable .datatable-body .datatable-scroll,
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner {
+  width: 100% !important;
+}
+.ngx-datatable.ngx-datatable.bootstrap .datatable-footer {
+  overflow: hidden;
+}
+.ngx-datatable.bootstrap .datatable-header {
+  overflow: visible;
+}
+@media screen and (max-width: 767px) {
+  ngx-datatable.ngx-datatable.bootstrap.selection-cell {
+    overflow-x: auto;
+  }
+}
+
+ngx-datatable.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell, .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+  min-width: 150px;
+  border-top: 1px solid #d1d4d7;
+  height: 100% !important;
+}
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row, ngx-datatable.ngx-datatable .datatable-header {
+  border-top: none !important;
+}
+@media screen and (max-width: 767px) {
+  body .navbar-vertical.navbar-expand-xs .navbar-nav>.nav-item {
+    margin-top: 15px;
+  }
+}
+
+
+#sidenav-collapse-main ul.navbar-nav {
+  border-top: 1px solid #fff;
+}
+body .navbar-vertical.navbar-expand-xs #sidenav-collapse-main .navbar-nav>.nav-item {
+  margin-top: 0;
+}
+#sidenav-collapse-main .sidebar-divider {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-color: #fff;
+}
+.navbar-vertical.navbar-expand-xs #sidenav-collapse-main .navbar-nav>.nav-item>.nav-link.active {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  border-radius: 0 !important;
+}
+
+@media (min-width: 992px) {
+  body .navbar-brand-img {
+    height: 110px !important;
+    width: 170px;
+    object-fit: contain;
+    border-radius: 5px;
+    max-height: 19rem !important;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  //For 4K Displays (Ultra HD)
+  .g-sidenav-pinned .sidenav.fixed-left+.main-content {
+    margin-left: 300px !important;
+  }
+  body .navbar-light .navbar-nav .nav-link{
+    font-size: 1.5rem !important;
+  }
+  body.g-sidenav-pinned .sidenav{
+    max-width: 301px !important;
+  }
+}

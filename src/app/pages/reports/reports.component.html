@@ -1,0 +1,299 @@
+<div class="header bg-danger pb-6"></div>
+
+<div class="container-fluid mt--6">
+  <div class="row justify-content-center">
+    <!-- <div class="col-12 col-md-12"> -->
+      <div class="col-12 col-md-7">
+        <div class="card bg-secondary shadow ">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Report</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">Card Number</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="card"
+                    [value]="card"
+                    class="form-control form-control-alternative"
+                    placeholder="Card Number"
+                  />
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">City</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="city"
+                    [value]="city"
+                    class="form-control form-control-alternative"
+                    placeholder="City"
+                  />
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <!-- <label class="form-control-label">Start date</label>
+                  <input
+                    type="date"
+                    class="form-control form-control-alternative"
+                    placeholder="Start Date"
+                    (change)="changeDate($event.target.value, 'start_date')"
+                    [value]="start_date"
+                  /> -->
+
+
+
+                  <label class="form-control-label">Start date</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <input type="text"
+                            placeholder="Start Date"
+                            class="form-control"
+                            bsDatepicker
+                            (bsValueChange)="changeDate($event, 'start_date')"
+                            [bsValue]="start_date"
+                            [bsConfig]="{
+                              isAnimated: true,
+                              containerClass: 'theme-red'
+                            }">
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <!-- <label class="form-control-label">End date</label>
+                  <input
+                    type="date"
+                    class="form-control form-control-alternative"
+                    placeholder="End Date"
+                    (change)="changeDate($event.target.value, 'end_date')"
+                    [value]="end_date"
+                  /> -->
+
+
+                  <label class="form-control-label">End date</label>
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                    </div>
+                    <input type="text"
+                            placeholder="End Date"
+                            class="form-control"
+                            bsDatepicker
+                            (bsValueChange)="changeDate($event, 'end_date')"
+                            [bsValue]="end_date"
+                            [bsConfig]="{
+                              isAnimated: true,
+                              containerClass: 'theme-red'
+                            }"/>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">Unit</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="unit"
+                    [value]="unit"
+                    class="form-control form-control-alternative"
+                    placeholder="Unit"
+                  />
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="company">Company</label>
+                  <select
+                    class="form-control form-control-alternative"
+                    name="company"
+                    [(ngModel)]="company_filter"
+                    [disabled]="companyLength"
+                    [title]="companyLength ? 'This is the single company available to select' : ''"
+                  >
+                    <option value="" disabled>Select company</option>
+                    <option *ngFor="let c of company" [ngValue]="c.name">
+                      {{ c.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">Currency</label>
+                  <select
+                    class="form-control form-control-alternative"
+                    name="currency"
+                    [(ngModel)]="currency"
+                  >
+                    <option disabled>Select currency</option>
+                    <option value="">Both</option>
+                    <option value="USD">USD</option>
+                    <option value="CAD">CAD</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="form-group">
+                  <label class="form-control-label">Product</label>
+                  <select
+                    class="form-control form-control-alternative"
+                    name="product"
+                    [(ngModel)]="product"
+                  >
+                    <option value="">All</option>
+                    <option value="diesel">Diesel</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-right">
+                <button
+                  class="btn btn-fill btn-primary"
+                  (click)="loadFilteredTransactionData()"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="card bg-secondary shadow ">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Download Reports</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-group">
+                  <label class="form-control-label">Format</label>
+                  <select
+                    class="form-control form-control-alternative"
+                    name="format"
+                    [(ngModel)]="format"
+                  >
+                    <option disabled selected value="">Select format</option>
+                    <option value="excel">Excel</option>
+                    <option value="csv">CSV</option>
+                    <option value="dat">DAT</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="template"
+                    >Template</label
+                  >
+                  <select
+                    class="form-control form-control-alternative"
+                    name="template"
+                    [(ngModel)]="template"
+                  >
+                    <option value="" disabled>Select template</option>
+                    <option *ngFor="let temp of templates" [value]="temp">
+                      {{ temp }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-4 d-flex align-items-center">
+                <button
+                  class="btn btn-fill btn-primary"
+                  (click)="downloadTransactions()"
+                >
+                  Download
+                </button>
+              </div>
+            </div>
+            <hr class="my-4" />
+            <div class="row">
+              <div class="col-12">
+                <div class="alert alert-primary" role="alert">
+                  <span>Looking for Custom Reports, create template that works for you !</span>
+                  <div style="text-align: right;">
+                    <b><a
+                      class="text-white"
+                      role="button"
+                      style="cursor: pointer; text-decoration: underline;"
+                      (click)="openCreateTemplateModal()"
+                    >
+                      Create Template
+                    </a></b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+    <div class="col-12 col-md-12">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Transactions</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col" *ngFor="let cell of tableData.headerRow">
+                        {{ cell }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngIf="tableData.dataRows.length; else noDataFound"
+                    >
+                      <tr *ngFor="let row of tableData.dataRows">
+                        <th scope="row">{{ row.company_name }}</th>
+                        <th scope="row">{{ row.tran_date }}</th>
+                        <th scope="row">{{ row.card }}</th>
+                        <th scope="row">{{ row.city }}</th>
+                        <th scope="row">{{ row.unit }}</th>
+                        <th scope="row">{{ row.state }}</th>
+                        <th scope="row">{{ row.disc_ppu }}</th>
+                        <th scope="row">{{ row.qty }}</th>
+                        <th scope="row">{{ row.amt }}</th>
+                        <th scope="row">{{ row.currency }}</th>
+                      </tr>
+                    </ng-container>
+                    <ng-template #noDataFound>
+                      <tr>
+                        <td colspan="10" class="text-center">No data found</td>
+                      </tr>
+                    </ng-template>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

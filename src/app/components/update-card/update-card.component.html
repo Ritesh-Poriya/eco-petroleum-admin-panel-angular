@@ -1,0 +1,236 @@
+<div class="card bg-secondary shadow">
+  <div class="card-header bg-white border-0">
+    <div class="row align-items-center">
+      <div class="col-8">
+        <h3 class="mb-0">Update card detail</h3>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <form novalidate #f1="ngForm" (ngSubmit)="onSubmit(f1.value, f1.valid)">
+      <div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label" for="pin"
+                >Pin
+                <span class="text-danger">*</span>
+              </label>
+              <input
+                type="number"
+                id="pin"
+                class="form-control form-control-alternative"
+                placeholder="Pin"
+                name="pin"
+                [(ngModel)]="card.pin"
+                required
+                #pin="ngModel"
+                pattern="^[0-9]{1,8}$"
+              />
+              <small *ngIf="pin.invalid && (pin.dirty || pin.touched)"
+                class="text-danger"
+              >
+              Pin is required.
+              </small>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label" for="unitNumber"
+                >Unit Number <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                id="unitNumber"
+                class="form-control form-control-alternative"
+                placeholder="Unit Number"
+                name="unit"
+                [(ngModel)]="card.unit"
+                required
+                #unit_number="ngModel"
+                pattern="^[a-zA-Z0-9]{1,8}$"
+              />
+              <small
+              *ngIf="unit_number.invalid && (unit_number.dirty || unit_number.touched)"
+                class="text-danger"
+              >
+              Unit is required and should be max 8 characters.
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label class="form-control-label" for="driverName"
+                >Driver Name <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                id="driverName"
+                class="form-control form-control-alternative"
+                placeholder="Driver name"
+                name="drivername"
+                [(ngModel)]="card.drivername"
+                required
+                #driverName="ngModel"
+                pattern="^[a-zA-Z0-9 ]{1,23}$"
+                [min]="0"
+                [max]="23"
+              />
+              <small *ngIf="driverName.invalid && (driverName.dirty || driverName.touched)"
+                class="text-danger"
+              >
+              Driver Name is required, max 23 Alphabetical characters only.
+              </small>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label">Status</label>
+              <div>
+                <mat-slide-toggle
+                  [checked]="card.status === 'Inactive' ? false : true"
+                  color="primary"
+                  (change)="toggleStatus($event)"
+                  name="status"
+                  >{{ card.status }}</mat-slide-toggle
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Limit Diesel <span class="text-danger">*</span>
+              </label>
+              <div>
+                <mat-slider
+                  class="w-75"
+                  [max]="1000"
+                  [min]="0"
+                  [step]="20"
+                  [discrete]="true"
+                >
+                  <input
+                    matSliderThumb
+                    #limit_ulsd
+                    name="limit_ulsd"
+                    [ngModel]="card.limit_ulsd"
+                    [value]="card.limit_ulsd"
+                    (change)="changeLimit(limit_ulsd.value, 'limit_ulsd')"
+                  />
+                </mat-slider>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Limit RFR <span class="text-danger">*</span></label
+              >
+              <div>
+                <mat-slider
+                  class="w-75"
+                  [max]="300"
+                  [min]="0"
+                  [step]="20"
+                  [discrete]="true"
+                >
+                  <input
+                    matSliderThumb
+                    #limit_rfr
+                    name="limit_rfr"
+                    [ngModel]="card.limit_rfr"
+                    [value]="card.limit_rfr"
+                    (change)="changeLimit(limit_rfr.value, 'limit_rfr')"
+                  />
+                </mat-slider>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Limit DEFD <span class="text-danger">*</span>
+              </label>
+              <mat-slider
+                class="w-75"
+                [max]="260"
+                [min]="0"
+                [step]="20"
+                [discrete]="true"
+              >
+                <input
+                  matSliderThumb
+                  #limit_defd
+                  name="limit_defd"
+                  [ngModel]="card.limit_defd"
+                  [value]="card.limit_defd"
+                  (change)="changeLimit(limit_defd.value, 'limit_defd')"
+                />
+              </mat-slider>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label"
+                >Cash advance limit<span class="text-danger">*</span></label
+              >
+              <div>
+                <mat-slider
+                  class="w-75"
+                  [max]="400"
+                  [min]="0"
+                  [step]="50"
+                  [discrete]="true"
+                >
+                  <input
+                    matSliderThumb
+                    [value]="card.cashadvance_limit"
+                    name="cashadvance_limit"
+                    [ngModel]="card.cashadvance_limit"
+                    #cashadvance_limit
+                    (change)="
+                      changeLimit(cashadvance_limit.value, 'cashadvance_limit')
+                    "
+                  />
+                </mat-slider>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label">Cash Advance cycle</label>
+              <select
+                class="form-control form-control-alternative"
+                [(ngModel)]="card.cashadvance_cycle"
+                name="cashadvance_cycle"
+              >
+                <option disabled>Select cycle</option>
+                <option value="DAILY">Daily</option>
+                <option value="WEEKLY">Weekly</option>
+                <option value="ONE_TIME">One Time</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-right">
+            <button
+              type="submit"
+              class="btn btn-fill btn-primary"
+              [disabled]="!f1.form.valid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

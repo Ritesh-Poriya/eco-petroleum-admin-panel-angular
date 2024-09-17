@@ -1,0 +1,118 @@
+<div class="header bg-danger pb-6"></div>
+
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-12">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Request EFS Money Code</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form novalidate #f1="ngForm" (ngSubmit)="onSubmit(f1.value, f1.valid, f1)">
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="amount">Amount <span class="text-danger">*</span></label>
+                    <input type="number" id="amount" class="form-control form-control-alternative" placeholder="Amount"
+                      name="mc_amount" [ngModel]="moneyCode.mc_amount" required #mc_amount="ngModel"
+                      pattern="^[0-9]*(\.[0-9]{0,6})?$" />
+                    <small [hidden]="
+                        mc_amount.valid || (mc_amount.pristine && !f1.submitted)
+                      " class="text-danger">
+                      Amount is required and should be a number.
+                    </small>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="unitNumber">Unit Number <span
+                        class="text-danger">*</span></label>
+                    <input type="text" id="unitNumber" class="form-control form-control-alternative"
+                      placeholder="Unit Number" name="unit_number" [ngModel]="moneyCode.unit_number" required
+                      #unit_number="ngModel" />
+                    <small [hidden]="
+                        unit_number.valid ||
+                        (unit_number.pristine && !f1.submitted)
+                      " class="text-danger">
+                      Unit Number is required.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="cardNumber">Card Number <span
+                        class="text-danger">*</span></label>
+                    <input type="number" id="cardNumber" class="form-control form-control-alternative"
+                      placeholder="Card Number" name="card_number" [ngModel]="moneyCode.card_number" required
+                      #card_number="ngModel" pattern="^[0-9]*(\.[0-9]{0,6})?$" />
+                    <small [hidden]="
+                        card_number.valid ||
+                        (card_number.pristine && !f1.submitted)
+                      " class="text-danger">
+                      Card Number is required and should be a number.
+                    </small>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="reason">Reason <span class="text-danger">*</span></label>
+                    <input type="text" id="reason" class="form-control form-control-alternative" placeholder="Reason"
+                      required name="mc_reason" [ngModel]="moneyCode.mc_reason" #mc_reason="ngModel" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="tripNumber">Trip Number</label>
+                    <input type="text" id="tripNumber" class="form-control form-control-alternative"
+                      placeholder="Trip Number" name="trip_number" [ngModel]="moneyCode.trip_number"
+                      #trip_number="ngModel" />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="driverName">Driver name</label>
+                    <input type="text" id="driverName" class="form-control form-control-alternative"
+                      placeholder="Driver name" name="driver_name" [ngModel]="moneyCode.driver_name"
+                      #driver_name="ngModel" />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="company">Company</label>
+                    <select class="form-control form-control-alternative" name="company" [(ngModel)]="company_filter"
+                      [disabled]="companyLength"
+                      [title]="companyLength ? 'This is the single company available to select' : ''">
+                      <option value="" disabled>Select company</option>
+                      <option *ngFor="let c of company" [ngValue]="c.name">
+                        {{ c.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-center text-danger" *ngIf="error">
+                  {{ error }}
+                </div>
+                <div class="col-12 text-right">
+                  <button type="submit" class="btn btn-fill btn-primary">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

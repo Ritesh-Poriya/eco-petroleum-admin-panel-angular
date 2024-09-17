@@ -1,0 +1,239 @@
+<div class="header bg-danger pb-6"></div>
+
+<div class="container-fluid mt--6">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Stats</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row align-items-end">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group">
+                <label class="form-control-label">Filter</label>
+                <select class="form-control form-control-alternative" name="filter" [(ngModel)]="filter">
+                  <!-- <option disabled>Select filter</option> -->
+                  <option value="lastMonth">Last Month ({{ getFormattedLastMonth() }})</option>
+                  <option value="lastThreeMonths">Last 3 months</option>
+                  <option value="lastSixMonths">Last 6 months</option>
+                  <option value="lastTwelveMonths">Last 12 months</option>
+                  <option value="custom">Custom Date Range</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3" *ngIf="filter === 'custom'">
+              <div class="form-group">
+                <label class="form-control-label">Select date range</label>
+                <input [(ngModel)]="customDate" type="text" autocomplete="off" bsDaterangepicker
+                  class="form-control ng-pristine ng-valid ng-touched input-group-alternative"
+                  placeholder="Select custom date range" [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                  name="bsDaterangepicker" (onShown)="clearCustomDate()" />
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group">
+                <label class="form-control-label" for="company">Company</label>
+                <select
+                  class="form-control form-control-alternative"
+                  name="company"
+                  [(ngModel)]="company_filter"
+                  [disabled]="companyLength"
+                  [title]="companyLength ? 'This is the single company available to select' : ''"
+                >
+                  <option value="" disabled>Select company</option>
+                  <option *ngFor="let c of company" [ngValue]="c.name">
+                    {{ c.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-1">
+              <div class="form-group">
+                <button class="btn btn-fill btn-primary" (click)="loadFilteredTransactionData()">
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <h3 class="mb-0">Total Quantity(L)</h3>
+            </div>
+            <div class="card-body">
+              <h4 class="text-primary fs-3">{{ formatNumber(total_quantity) }}</h4>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-3">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <h3 class="mb-0">Total units</h3>
+            </div>
+            <div class="card-body">
+              <h4 class="text-primary fs-3">{{ formatNumber(total_units) }}</h4>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-md-3">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <h3 class="mb-0">Amount(CAD)</h3>
+            </div>
+            <div class="card-body">
+              <h4 class="text-primary fs-3">{{ formatNumber(total_amount) }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <h3 class="mb-0">Total tax</h3>
+            </div>
+            <div class="card-body">
+              <h4 class="text-primary fs-3">{{ formatNumber(total_tax) }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Total Usage</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 position-relative">
+              <div class="chart">
+                <canvas class="chart-canvas" id="total_usage_chart"> </canvas>
+              </div>
+              <div class="overlay" *ngIf="!transactions.length">
+                <div class="text-white fs-2 font-weight-bold">
+                  No data available
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Usage state type</h3>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 position-relative">
+              <div class="chart position-relative">
+                <canvas
+                  id="state_usage"
+                  class="chart-canvas"
+                  width="200" height="100"
+                ></canvas>
+              </div>
+              <div class="overlay" *ngIf="!transactions.length">
+                <div class="text-white fs-2 font-weight-bold">
+                  No data available
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class=" row">
+
+        <div class=" col-xl-6">
+          <div class=" card">
+            <div class=" card-header">
+              <h3 class="mb-0">Usage stats(CA)</h3>
+            </div>
+
+            <div class=" card-body">
+              <div class=" chart" id="cad_pie_chart" style="height: auto;">
+                <canvas class=" chart-canvas" id="cad_state_usage"> </canvas>
+              </div>
+              <div class="overlay" *ngIf="!cadTransactionCounts">
+                <div class="text-white fs-2 font-weight-bold">
+                  No data available
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" col-xl-6">
+          <div class=" card">
+            <div class=" card-header">
+              <h3 class="mb-0">Usage stats(US)</h3>
+            </div>
+
+            <div class=" card-body">
+              <div class=" chart" id="usd_pie_chart" style="height: auto;">
+                <canvas class=" chart-canvas" id="usd_state_usage"> </canvas>
+              </div>
+              <div class="overlay" *ngIf="!usdTransactionCounts">
+                <div class="text-white fs-2 font-weight-bold">
+                  No data available
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class=" col-xl-12">
+          <div class=" card">
+            <div class=" card-header">
+              <h3 class="mb-0">Total Usage</h3>
+            </div>
+
+            <div class=" card-body">
+              <div class=" chart" id="usage_chart" style="height: auto;">
+                <canvas class="chart-canvas" id="total_usage_chart" width="1477" height="350"> </canvas>
+              </div>
+              <div class="overlay" *ngIf="!transactions.length">
+                <div class="text-white fs-2 font-weight-bold">
+                  No data available
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class=" col-xl-12">
+          <div class=" card">
+            <div class=" card-header">
+              <h3 class="mb-0">Product Type</h3>
+            </div>
+
+            <div class=" card-body">
+              <div class=" chart" id="product_type" style="height: auto;">
+                <canvas class="chart-canvas" id="product_type_chart" width="1477" height="350"> </canvas>
+              </div>
+              <div class="overlay" *ngIf="!transactions.length">
+                <div class="text-white fs-2 font-weight-bold">
+                  No data available
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

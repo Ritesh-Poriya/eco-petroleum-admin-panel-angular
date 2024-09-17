@@ -1,0 +1,89 @@
+<div class="header bg-danger pb-6"></div>
+
+<div class="container-fluid mt--6">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12">
+      <div class=" card bg-secondary shadow">
+        <div class=" card-header border-0">
+          <div class=" row">
+            <div class=" col-12">
+              <h3 class="mb-0">Cards Management</h3>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="dataTables_wrapper py-4 bg-white">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select name="datatable_length" aria-controls="datatable" class="form-control form-control-sm"
+                    (change)="entriesChange($event)">
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 ">
+              <div class="d-flex ml-4 justify-content-md-end mr-2">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input type="search" class="form-control form-control-sm" placeholder="Search cards"
+                  aria-controls="datatable" [(ngModel)]="searchText" (ngModelChange)="filterData($event)" />
+                </label>
+              </div>
+              <a style="cursor: pointer;" class=" btn btn-sm btn-neutral btn-round btn-icon mb-2" (click)="exportToExcel()"
+              data-toggle="tooltip" data-placement="top" title="Export">
+              <span class=" btn-inner--icon">
+                <i class=" fas fa-user-edit"> </i>
+              </span>
+              <span class=" btn-inner--text"> Export </span>
+            </a>
+              </div>
+            </div>
+
+          </div>
+
+          <ngx-datatable class="bootstrap selection-cell" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            [rowHeight]="'auto'" [limit]="entries != -1 ? entries : undefined" [rows]="temp"
+            (activate)="onActivate($event)">
+            <ngx-datatable-column *ngFor="let cell of tableData.headerRow" [name]="cell">
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <ng-container *ngIf="cell == 'Card'">
+                  {{ row.card | cardMask}}
+                </ng-container>
+
+                <ng-container *ngIf="cell == 'Driver Name'">
+                  {{ row.drivername }}
+                </ng-container>
+
+                <ng-container *ngIf="cell == 'Status'">
+                  <!-- <mat-slide-toggle [checked]=" row.status === 'Inactive' ? false : true" color="primary"
+                    (change)="changeStatus(row, $event.checked)"></mat-slide-toggle> -->
+                  {{ row.status }}
+                </ng-container>
+
+                <ng-container *ngIf="cell == 'Unit'">
+                  {{ row.unit }}
+                </ng-container>
+
+                <ng-container *ngIf="cell == 'Action'">
+                  <button class="btn btn-info px-1 py-0" (click)="updateCard(row)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                </ng-container>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
